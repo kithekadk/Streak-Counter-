@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>streak counter</title>
+
+    <link rel="stylesheet" href="../css/main.css">
+    
+</head>
+<body>
+    <div class="imageContainer">
+        <div class="buttonAdd">
+            <h6 class="addbtn">+</h6> 
+        </div>
+        <div class="imageDiv">
+            <img src="../Images/demo.png">
+        </div>
+        <div class="welcome">
+            <p>Welcome to My Streak Counter</p>
+        </div>
+    </div>
+
+    <div class="imageContainer2">
+        <div class="buttonAdd">
+            <img class="addbtn2" src="../Images/cancel.svg" alt="cancel">
+        </div>
+        <div class="imageDiv">
+            <div class="menu">
+                <img src="../Images/menu.svg"> <br>
+                Add a task Here
+                
+            </div>
+        </div>
+        
+        <div class="formContainer">
+            <form class="addTaskform">
+                <p id="alertuser"></p>
+                <h3>Please Add A Task</h3>
+                Task Name <br>
+                <input type="text" class="txttask"> <br>
+                Image <br>
+                <input type="text" class="txtimg"> <br>
+                Start Date <br>
+                <input type="date" class="txtdate"> <br>
+                <input type="submit" value="Add Task">
+                
+
+            </form>
+        </div>
+    </div>
+    <div class="titleOnTasks">
+
+    </div>
+    <div class="taskdisplay">
+       
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="../js/index.js"></script>
+</body>
+</html>
