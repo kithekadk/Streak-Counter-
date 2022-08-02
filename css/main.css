@@ -103,7 +103,6 @@ h3{
     min-height: 13vh;
     border:solid rgb(252, 122, 74) 1px;
     padding: 10px;
-    background: yellow;
 }
 
 ion-icon {
@@ -121,11 +120,12 @@ ion-icon {
     width:30vw;
     height: 40vh;
     background-color: white;
-    color: rgb(252, 122, 74);
+    color: black;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     visibility: hidden;
     text-align: center;
     line-height: 25px;
+    box-shadow: 3px;
   }

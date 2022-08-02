@@ -165,6 +165,7 @@ function popTask(index) {
         streakTime.textContent = (`${result} day(s)`);
     }
     roundNumber(theDays, 1);
+    //=============end of calculation==============
     const popItem = document.createElement('div');
     popItem.appendChild(Item2);
     popItem.appendChild(taskImg2);
