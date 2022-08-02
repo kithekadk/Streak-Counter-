@@ -11,7 +11,7 @@ const allTasks = document.querySelector('.taskdisplay');
 const titleOnTasks = document.querySelector(".titleOnTasks");
 const titleText = document.createElement('p');
 if (allTasks.hasChildNodes()) {
-    titleText.textContent = "No Activities";
+    titleText.textContent = "You Don't have any Activity!!!";
 }
 titleOnTasks.appendChild(titleText);
 // TOGGLE BETWEEN THE DISPLAYS ON CLICK
@@ -53,7 +53,7 @@ class Tasks {
             date: txtdate.value,
         };
         this.TasksToDo.push(newTask);
-        console.log(this.TasksToDo);
+        // console.log(this.TasksToDo)
         if (imageContainer.style.display === "none") {
             imageContainer.style.display = "flex";
             imageContainer2.style.display = "none";
@@ -87,8 +87,7 @@ function resetForm() {
     txtimg.value = "";
     txtdate.value = "";
 }
-//this host the task,image and date
-// DISPLAY TASKS
+// DISPLAY TASKS==================================================
 function DisplayTasks() {
     const taskItems = document.querySelector(".taskdisplay");
     while (taskItems.hasChildNodes()) {
@@ -103,26 +102,20 @@ function DisplayTasks() {
         taskImg.innerHTML = `${image}`;
         const taskStartdate = document.createElement("p");
         taskStartdate.textContent = date;
-        const close = document.createElement('button');
-        close.textContent = 'close';
-        close.style.display = 'none';
-        const deletestreak = document.createElement('button');
-        deletestreak.textContent = 'delete';
-        deletestreak.style.display = 'none';
         const taskHolder = document.createElement('div');
-        // taskHolder.className="taskholder"
-        taskHolder.style.width = "15vw";
-        taskHolder.style.minHeight = "10vw";
-        taskHolder.style.border = "solid rgb(252, 122, 74) 1px";
-        taskHolder.style.padding = "10px";
+        taskHolder.className = "taskbox";
+        taskHolder.addEventListener("click", () => {
+            popup.style.visibility = "visible";
+            popTask(index);
+        });
+        //holds the task items//===================================
         taskHolder.appendChild(taskImg);
         taskHolder.appendChild(Item);
         taskHolder.appendChild(taskStartdate);
-        taskHolder.appendChild(close);
-        taskHolder.appendChild(deletestreak);
         allTasks.appendChild(taskHolder);
         const titleOnTasks = document.querySelector(".titleOnTasks");
         const titleText2 = document.createElement('p');
+        titleOnTasks;
         if (allTasks.hasChildNodes()) {
             while (titleOnTasks.hasChildNodes()) {
                 titleOnTasks.removeChild(titleOnTasks.firstChild);
@@ -131,4 +124,53 @@ function DisplayTasks() {
         }
         titleOnTasks.appendChild(titleText2);
     });
+}
+const popup = document.querySelector('.popup');
+function popTask(index) {
+    const taskItems2 = document.querySelector(".popup");
+    while (taskItems2.hasChildNodes()) {
+        taskItems2.removeChild(taskItems2.firstChild);
+    }
+    let arrayAccessor = taskList.getArray();
+    let itemtoPop = arrayAccessor[index];
+    const Item2 = document.createElement("p");
+    Item2.textContent = itemtoPop.task;
+    const taskImg2 = document.createElement("p");
+    taskImg2.className = "iconimage";
+    taskImg2.innerHTML = `${itemtoPop.image}`;
+    const taskStartdate2 = document.createElement("p");
+    taskStartdate2.textContent = itemtoPop.date;
+    const close = document.createElement('button');
+    close.textContent = 'close';
+    close.addEventListener("click", () => {
+        popup.style.visibility = "hidden";
+    });
+    const deletestreak = document.createElement('button');
+    deletestreak.textContent = 'delete';
+    deletestreak.addEventListener("click", () => {
+        arrayAccessor.splice(index, 1);
+        DisplayTasks();
+        popup.removeChild(popItem);
+        popup.style.visibility = "hidden";
+    });
+    const streakTime = document.createElement('p');
+    //streak days calculation======================================
+    const now = new Date();
+    const datethen = new Date(itemtoPop.date);
+    const difference = now.getTime() - (Math.abs(datethen.getTime()));
+    const theDays = (difference / (1000 * 60 * 60 * 24));
+    function roundNumber(num, decimal_digit) {
+        let powerOften = Math.pow(10, decimal_digit);
+        let result = Math.round(num * powerOften) / powerOften;
+        streakTime.textContent = (`${result} day(s)`);
+    }
+    roundNumber(theDays, 1);
+    const popItem = document.createElement('div');
+    popItem.appendChild(Item2);
+    popItem.appendChild(taskImg2);
+    popItem.appendChild(taskStartdate2);
+    popItem.appendChild(streakTime);
+    popItem.appendChild(close);
+    popItem.appendChild(deletestreak);
+    popup.appendChild(popItem);
 }

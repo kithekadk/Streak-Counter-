@@ -98,11 +98,34 @@ h3{
     display: flex;
     justify-content: center;
 }
-/* .iconimage{
-    width: 50px;
-    height: 50px;
-} */
+.taskbox{
+    width:15vw;
+    min-height: 13vh;
+    border:solid rgb(252, 122, 74) 1px;
+    padding: 10px;
+    background: yellow;
+}
+
 ion-icon {
     font-size: 84px;
     color:rgb(73, 73, 212)
+  }
+
+.popup{
+    display: flex;
+    position: fixed;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    width:30vw;
+    height: 40vh;
+    background-color: white;
+    color: rgb(252, 122, 74);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    visibility: hidden;
+    text-align: center;
+    line-height: 25px;
   }
