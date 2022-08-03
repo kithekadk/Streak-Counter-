@@ -47,6 +47,7 @@ const txtdate = document.querySelector<HTMLInputElement>(".txtdate");
 
 class Tasks{
     private TasksToDo: task[] = [];
+    Timing: number[]=[];
     
     getArray(){
         return this.TasksToDo;
@@ -67,18 +68,70 @@ class Tasks{
         }
     }
 }
-
-class Streaklist {
-
-}
-
-// class taskStreak{
-
-// }
-
 const taskList = new Tasks();
 
-addTaskform.addEventListener('submit', (e) => {
+//=========CALCULATES THE STREAK RUN DAYS======================
+const streakTime = document.createElement('p');
+
+class Streaklist extends Tasks{
+    constructor(){
+        super()
+    };
+    calculateStreak(index:number){
+        // access the date from array in class Tasks=====
+        let myArray = taskList.getArray();
+        let myTask = myArray[index]
+        //streak days calculation========================
+         const now = new Date();
+         const datethen= new Date(myTask.date);
+         const difference = now.getTime()-(Math.abs(datethen.getTime()));
+         const theDays = Math.ceil(difference/(1000*60*60*24))
+         streakTime.textContent = (`${theDays} day(s)`)
+
+         //best streak
+        let arrBest:number[] = this.Timing = [];
+        let largest = arrBest[0]
+
+        this.Timing.push(theDays);
+        let bestdifference = bestStreak.Start(this.Timing).getBestTime()
+
+        largest = arrBest.sort((a,b)=> a - b)[arrBest.length-1]
+
+        console.log(largest);
+        const bestDiffdisplay = document.createElement('h3');
+        bestDiffdisplay.textContent=(`${largest}Day(s) is your longest streak`);
+        
+        const bestitem =document.querySelector('.bestitem');
+        while (bestitem.hasChildNodes()){
+            bestitem.removeChild(bestitem.firstChild)
+        }
+        bestitem.appendChild(bestDiffdisplay);
+
+         //=============end of calculation================
+    }
+    }
+
+
+class bestStreak implements Timetype{
+
+        time: number[]=[];
+        constructor(Overaltime:number[]){
+            this.time= Overaltime
+        }
+        static Start(arr:number[]){
+            return new bestStreak(arr)
+        }
+
+        getBestTime():number{
+            const maximum = this.time.reduce(function(a,b){
+                return Math.max (a,b)
+            },-Infinity)
+            return maximum
+        }
+    }
+
+// form validation===================
+    addTaskform.addEventListener('submit', (e) => {
     e.preventDefault();
 
     let values = txttask.value !== "" && txtimg.value !== "" && txtdate.value !== "";
@@ -86,7 +139,7 @@ addTaskform.addEventListener('submit', (e) => {
         const disclaimer = document.getElementById("alertuser");
         disclaimer.textContent="Please fill in all fields";
         disclaimer.style.color="red"  
-        const warning = setTimeout(() => {
+        setTimeout(() => {
         disclaimer.textContent=""
         }, (5000));
         
@@ -94,9 +147,8 @@ addTaskform.addEventListener('submit', (e) => {
 
     }else{
         taskList.pushTask();
-
         resetForm()
-        DisplayTasks()   
+        DisplayTasks()        
     }
 })
 
@@ -133,6 +185,8 @@ function DisplayTasks(){
         taskHolder.className="taskbox";
         taskHolder.addEventListener("click",()=>{
             popup.style.visibility="visible"
+            const StreaklistInstance = new Streaklist;
+            StreaklistInstance.calculateStreak(index)
             popTask(index);
         })
        
@@ -146,7 +200,7 @@ function DisplayTasks(){
 
         const titleOnTasks = document.querySelector(".titleOnTasks");
         const titleText2=document.createElement('p');
-        titleOnTasks
+        
 
         if (allTasks.hasChildNodes()){
             
@@ -184,35 +238,26 @@ function popTask(index:number){
         taskStartdate2.textContent = itemtoPop.date;
 
         const close = document.createElement('button');
-        close.textContent= 'close'
+        close.textContent= 'close';
+        close.style.padding="10px"
+        close.style.background="red"
+        close.style.border="none"
+        close.style.margin="10px 30px 0px 0px"
         close.addEventListener("click",()=>{
             popup.style.visibility="hidden";
         })
 
         const deletestreak = document.createElement('button');
-        deletestreak.textContent= 'delete'
+        deletestreak.textContent= 'delete';
+        deletestreak.style.padding="10px"
+        deletestreak.style.border="none"
+        deletestreak.style.background="grey"
         deletestreak.addEventListener("click",()=>{
             arrayAccessor.splice(index, 1)
             DisplayTasks();
             popup.removeChild(popItem);
             popup.style.visibility="hidden";
         })
-
-        const streakTime = document.createElement('p');
-
-        //streak days calculation======================================
-        const now = new Date();
-        const datethen= new Date(itemtoPop.date);
-        const difference = now.getTime()-(Math.abs(datethen.getTime()));
-        const theDays = (difference/(1000*60*60*24))
-
-        function roundNumber(num:number, decimal_digit:number) {
-            let powerOften = Math.pow( 10, decimal_digit );
-            let result = Math.round( num * powerOften ) / powerOften;
-            streakTime.textContent = (`${result} day(s)`)
-         }
-        roundNumber(theDays,1 )
-        //=============end of calculation==============
         
         const popItem = document.createElement('div');
         popItem.appendChild(Item2);
@@ -222,7 +267,7 @@ function popTask(index:number){
         popItem.appendChild(close);
         popItem.appendChild(deletestreak);
 
-        popup.appendChild(popItem);
-   
- 
+        popup.appendChild(popItem); 
 }
+
+
